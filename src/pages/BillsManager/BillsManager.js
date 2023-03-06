@@ -21,8 +21,8 @@ const BillsManager = ({ navigation }) => {
           })
         }
       />
-      {bills?.map((bill) => (
-        <BillCard bill={bill} />
+      {bills?.map((bill, index) => (
+        <BillCard key={index} bill={bill} />
       ))}
     </View>
   );

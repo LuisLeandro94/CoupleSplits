@@ -17,8 +17,17 @@ const QRScanner = ({ route }) => {
   }, []);
 
   const handleBarCodeScanned = ({ type, data }) => {
-    const tempBills = bills;
-    tempBills.unshift(data);
+    let tempBills = bills;
+
+    let pairs = data.split('*');
+
+    let obj = pairs.reduce((obj, data) => {
+      let [k, v] = data.split(':');
+      obj[k] = v;
+      return obj;
+    }, {});
+
+    tempBills.unshift(obj);
 
     setScanned(true);
     alert(`Bar code with type ${type} and data ${data} has been scanned!`);

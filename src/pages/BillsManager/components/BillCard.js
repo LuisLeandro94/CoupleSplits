@@ -1,23 +1,24 @@
 import React from 'react';
-import { Card } from 'react-native-paper';
+import { Button, Card, Text } from 'react-native-paper';
 
 const BillCard = ({ bill }) => {
+  const getDate = () => {
+    const year = bill.F.substring(0, 4);
+    const month = bill.F.substring(4, 6);
+    const day = bill.F.substring(6, 8);
+
+    const date = new Date(year, month - 1, day);
+
+    return date;
+  };
   return (
     <Card>
-      <Card.Title
-        title='Card Title'
-        subtitle='Card Subtitle'
-        left={LeftContent}
-      />
+      {console.log(bill)}
+      <Card.Title title='Card Title' subtitle='Card Subtitle' />
       <Card.Content>
-        <Text variant='titleLarge'>Card title</Text>
-        <Text variant='bodyMedium'>Card content</Text>
+        <Text variant='titleLarge'>{bill.O}</Text>
+        <Text variant='bodyMedium'>{getDate}</Text>
       </Card.Content>
-      <Card.Cover source={{ uri: 'https://picsum.photos/700' }} />
-      <Card.Actions>
-        <Button>Cancel</Button>
-        <Button>Ok</Button>
-      </Card.Actions>
     </Card>
   );
 };
