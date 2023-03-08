@@ -1,6 +1,7 @@
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import React, { useEffect, useState } from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
+import { NIF_API_KEY as key, NIF_API_URL as url } from 'react-native-dotenv';
 
 const QRScanner = ({ route }) => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -16,7 +17,14 @@ const QRScanner = ({ route }) => {
     getBarCodeScannerPermissions();
   }, []);
 
-  const handleBarCodeScanned = ({ type, data }) => {
+  const getCompanyInformation = async (nif) => {
+    const result = await fetch(`${url}${nif}&key=${key}`);
+
+    const json = await result.json();
+    console.log(json);
+  };
+
+  const handleBarCodeScanned = async ({ type, data }) => {
     let tempBills = bills;
 
     let pairs = data.split('*');
@@ -31,8 +39,10 @@ const QRScanner = ({ route }) => {
 
     setScanned(true);
     alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-    setLastBill(data);
+    setLastBill(obj);
     setBills(tempBills);
+    console.log(obj.A);
+    await getCompanyInformation(obj.A);
   };
 
   if (hasPermission === null) {
